@@ -1,0 +1,86 @@
+//book class
+class Books(var name: String, var numPages: Int, var publisher: Publisher){
+  
+  private var _isPublished:Boolean = false
+  private var _isReprint:Boolean = false
+  
+  
+  override def toString(): String = {
+    s"This books is titled ${name} and it has ${numPages}"
+  }
+  
+  def updateBookDetails(bookName: String) :Unit = {
+    name = bookName
+  }
+  
+  def updateBookPage(pages: Int): Unit = {
+    numPages = pages
+  }
+  
+  def makePublish(): Unit = {
+    if (_isPublished == false) _isPublished = true
+  }
+  def getPublish = _isPublished
+  
+  def makeReprint(): Unit = {
+    if (_isReprint == false) _isReprint = true
+  }
+  
+  def assignPublisher(publisher: Publisher) {
+    this.publisher = publisher
+  }
+  
+}
+
+//we can make this an abstract class
+class Publisher (name: String){
+  
+  private var nBooksPublished: Int = 0
+  private var listOfPublishedBooks: List[Books] = List()
+  
+  def nBooksPublished_(newNum: Int):Unit = {
+    nBooksPublished = newNum + getNumBooksPublished
+  }
+  
+  def getNumBooksPublished = nBooksPublished
+  
+  def getListOfBooksPublished = listOfPublishedBooks
+  
+  def addBookToList(book: Books):Unit = {
+    listOfPublishedBooks = listOfPublishedBooks ::: (book :: Nil)
+  } 
+  
+  def publishABook(book: Books) :Books = {
+    book.makePublish
+    nBooksPublished_(1)
+    addBookToList(book)
+    book
+  }
+  
+}
+
+var publisher1: Publisher = new Publisher("RandomHouse") 
+var dc: Books = new Books("David Copperfield", 200, publisher1)
+var ba: Books = new Books("Black Arrow", 150, publisher1)
+var purs: Books = new Books("Pursuit of Happiness", 15, publisher1)
+var alvaro: Books = new Books("Soler", 90, publisher1)
+
+publisher1.publishABook(dc)
+publisher1.publishABook(ba)
+publisher1.publishABook(purs)
+publisher1.publishABook(alvaro)
+
+println(dc.getPublish)
+println(publisher1.getNumBooksPublished)
+println(publisher1.getListOfBooksPublished)
+
+var xxx = purs match {
+  case ba => 2
+  case purs => 7
+  case alvaro => 3
+  case _ => 4
+}
+println(s"${xxx}  is correct")
+
+
+
